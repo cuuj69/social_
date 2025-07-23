@@ -83,11 +83,19 @@ const TimelineEventComponent: React.FC<{ event: TimelineEvent; index: number }> 
   });
 
   const categoryColors = {
-    education: 'bg-blue-500',
-    career: 'bg-green-500',
-    politics: 'bg-red-500',
-    football: 'bg-yellow-500',
-    diplomacy: 'bg-purple-500'
+    education: 'bg-primary-500 dark:bg-primary-400',
+    career: 'bg-green-500 dark:bg-green-400',
+    politics: 'bg-red-500 dark:bg-red-400',
+    football: 'bg-yellow-500 dark:bg-yellow-400',
+    diplomacy: 'bg-purple-500 dark:bg-purple-400'
+  };
+
+  const categoryLabels = {
+    education: 'Education',
+    career: 'Career',
+    politics: 'Politics',
+    football: 'Football',
+    diplomacy: 'Diplomacy'
   };
 
   return (
@@ -96,37 +104,38 @@ const TimelineEventComponent: React.FC<{ event: TimelineEvent; index: number }> 
       initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
       animate={inView ? { opacity: 1, x: 0 } : {}}
       transition={{ duration: 0.8, delay: index * 0.2 }}
-      className={`flex items-center gap-8 mb-16 ${
-        index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'
+      className={`flex flex-col lg:flex-row items-start gap-6 lg:gap-8 mb-16 ${
+        index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'
       }`}
     >
       {/* Timeline dot */}
-      <div className="relative flex-shrink-0">
-        <div className={`w-4 h-4 rounded-full ${categoryColors[event.category]} shadow-lg`}></div>
-        <div className="absolute top-4 left-2 w-0.5 h-16 bg-gray-300"></div>
+      <div className="relative flex-shrink-0 order-1 lg:order-none">
+        <div className={`w-6 h-6 rounded-full ${categoryColors[event.category]} shadow-lg border-4 border-white dark:border-dark-800`}></div>
+        <div className="absolute top-6 left-3 w-0.5 h-20 lg:h-16 bg-gray-300 dark:bg-gray-600"></div>
       </div>
 
       {/* Content */}
-      <div className={`flex-1 ${index % 2 === 0 ? 'text-left' : 'text-right'}`}>
-        <div className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow">
-          <div className="flex items-center gap-3 mb-3">
-            <span className="text-2xl font-bold text-gray-800">{event.year}</span>
-            <span className={`px-3 py-1 rounded-full text-xs font-semibold text-white ${categoryColors[event.category]}`}>
-              {event.category.toUpperCase()}
+      <div className={`flex-1 order-2 lg:order-none ${index % 2 === 0 ? 'lg:text-left' : 'lg:text-right'}`}>
+        <div className="bg-white dark:bg-dark-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-gray-200/50 dark:border-gray-700/50 hover:border-primary-200 dark:hover:border-primary-700">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-4">
+            <span className="text-2xl font-bold text-gray-800 dark:text-white">{event.year}</span>
+            <span className={`px-3 py-1 rounded-full text-xs font-semibold text-white ${categoryColors[event.category]} w-fit`}>
+              {categoryLabels[event.category]}
             </span>
           </div>
-          <h3 className="text-xl font-semibold mb-2 text-gray-800">{event.title}</h3>
-          <p className="text-gray-600 leading-relaxed">{event.description}</p>
+          <h3 className="text-xl font-semibold mb-3 text-gray-800 dark:text-white">{event.title}</h3>
+          <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">{event.description}</p>
           {event.image && (
             <div className="mt-4">
               <img
                 src={event.image}
                 alt={event.title}
-                className={`w-full h-48 object-cover rounded-lg ${
+                className={`w-full h-48 sm:h-56 object-cover rounded-lg shadow-md ${
                   event.image.includes('Ghana_Football_Association_logo') 
-                    ? 'object-contain bg-gray-100 p-4' 
+                    ? 'object-contain bg-gray-100 dark:bg-dark-700 p-4' 
                     : ''
                 }`}
+                loading="lazy"
               />
             </div>
           )}
@@ -138,8 +147,8 @@ const TimelineEventComponent: React.FC<{ event: TimelineEvent; index: number }> 
 
 const Timeline: React.FC = () => {
   return (
-    <section id="timeline" className="py-20 bg-gray-50">
-      <div className="max-w-6xl mx-auto px-5">
+    <section id="timeline" className="py-20 bg-gray-50 dark:bg-dark-900">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -147,8 +156,10 @@ const Timeline: React.FC = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 text-gray-800">A Life of Service & Leadership</h2>
-          <p className="text-lg md:text-xl text-center text-gray-600 mb-12 max-w-3xl mx-auto">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-6 text-gray-800 dark:text-white">
+            A Life of Service & Leadership
+          </h2>
+          <p className="text-lg md:text-xl text-center text-gray-600 dark:text-gray-300 mb-12 max-w-4xl mx-auto leading-relaxed">
             From medical practice to football administration, from politics to diplomacy - 
             Dr. Nyaho Nyaho-Tamakloe's journey spans decades of dedicated service to Ghana.
           </p>
@@ -156,7 +167,7 @@ const Timeline: React.FC = () => {
 
         <div className="relative">
           {/* Timeline line */}
-          <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gray-300"></div>
+          <div className="absolute left-3 lg:left-6 top-0 bottom-0 w-0.5 bg-gray-300 dark:bg-gray-600"></div>
           
           {/* Timeline events */}
           <div className="space-y-8">
@@ -174,8 +185,8 @@ const Timeline: React.FC = () => {
           viewport={{ once: true }}
           className="mt-16 text-center"
         >
-          <h3 className="text-lg font-semibold mb-4">Timeline Categories</h3>
-          <div className="flex flex-wrap justify-center gap-4">
+          <h3 className="text-lg font-semibold mb-6 text-gray-800 dark:text-white">Timeline Categories</h3>
+          <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
             {Object.entries({
               education: 'Education',
               career: 'Career',
@@ -183,15 +194,15 @@ const Timeline: React.FC = () => {
               football: 'Football',
               diplomacy: 'Diplomacy'
             }).map(([key, label]) => (
-              <div key={key} className="flex items-center gap-2">
+              <div key={key} className="flex items-center gap-2 bg-white dark:bg-dark-800 px-4 py-2 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
                 <div className={`w-3 h-3 rounded-full ${
-                  key === 'education' ? 'bg-blue-500' :
+                  key === 'education' ? 'bg-primary-500' :
                   key === 'career' ? 'bg-green-500' :
                   key === 'politics' ? 'bg-red-500' :
                   key === 'football' ? 'bg-yellow-500' :
                   'bg-purple-500'
                 }`}></div>
-                <span className="text-sm text-gray-600">{label}</span>
+                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{label}</span>
               </div>
             ))}
           </div>

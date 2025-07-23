@@ -5,17 +5,20 @@ import BookSection from './components/BookSection';
 import SocialMedia from './components/SocialMedia';
 import Footer from './components/Footer';
 import Navigation from './components/Navigation';
+import { ThemeProvider } from './contexts/ThemeContext';
 
 function App() {
   return (
-    <div className="App">
-      <Navigation />
-      <Hero />
-      <Timeline />
-      <BookSection />
-      <SocialMedia />
-      <Footer />
-    </div>
+    <ThemeProvider>
+      <div className="App bg-white dark:bg-dark-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
+        <Navigation />
+        <Hero />
+        <Timeline />
+        <BookSection />
+        <SocialMedia />
+        <Footer />
+      </div>
+    </ThemeProvider>
   );
 }
 

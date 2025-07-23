@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { 
@@ -10,7 +10,10 @@ import {
   Phone, 
   MapPin,
   Send,
-  Globe
+  Globe,
+  MessageSquare,
+  User,
+  Calendar
 } from 'lucide-react';
 
 interface SocialLink {
@@ -26,14 +29,14 @@ const socialLinks: SocialLink[] = [
     name: 'Twitter',
     url: 'https://twitter.com/nyaho_tamakloe',
     icon: <Twitter size={24} />,
-    color: 'bg-blue-500 hover:bg-blue-600',
+    color: 'bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700',
     description: 'Follow for latest updates and insights'
   },
   {
     name: 'Facebook',
     url: 'https://facebook.com/nyaho.tamakloe',
     icon: <Facebook size={24} />,
-    color: 'bg-blue-600 hover:bg-blue-700',
+    color: 'bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800',
     description: 'Connect and engage with the community'
   },
   {
@@ -47,14 +50,14 @@ const socialLinks: SocialLink[] = [
     name: 'LinkedIn',
     url: 'https://linkedin.com/in/nyaho-tamakloe',
     icon: <Linkedin size={24} />,
-    color: 'bg-blue-700 hover:bg-blue-800',
+    color: 'bg-blue-700 hover:bg-blue-800 dark:bg-blue-800 dark:hover:bg-blue-900',
     description: 'Professional network and achievements'
   },
   {
     name: 'Website',
     url: 'https://nyahotamakloe.com',
     icon: <Globe size={24} />,
-    color: 'bg-green-600 hover:bg-green-700',
+    color: 'bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-800',
     description: 'Official website and blog'
   }
 ];
@@ -65,9 +68,30 @@ const SocialMedia: React.FC = () => {
     threshold: 0.3
   });
 
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Handle form submission
+    console.log('Form submitted:', formData);
+  };
+
   return (
-    <section id="social" className="py-20 bg-gradient-to-br from-gray-50 to-blue-50">
-      <div className="max-w-6xl mx-auto px-5">
+    <section id="social" className="py-20 bg-gradient-to-br from-gray-50 to-primary-50 dark:from-dark-900 dark:to-dark-800">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -75,8 +99,10 @@ const SocialMedia: React.FC = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 text-gray-800">Connect & Engage</h2>
-          <p className="text-lg md:text-xl text-center text-gray-600 mb-12 max-w-3xl mx-auto">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-6 text-gray-800 dark:text-white">
+            Connect & Engage
+          </h2>
+          <p className="text-lg md:text-xl text-center text-gray-600 dark:text-gray-300 mb-12 max-w-4xl mx-auto leading-relaxed">
             Stay connected with Dr. Nyaho Nyaho-Tamakloe across various platforms and get in touch
           </p>
         </motion.div>
@@ -88,8 +114,9 @@ const SocialMedia: React.FC = () => {
             initial={{ opacity: 0, x: -50 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8 }}
+            className="order-2 lg:order-1"
           >
-            <h3 className="text-2xl font-bold mb-8 text-gray-800">Follow Dr. Nyaho</h3>
+            <h3 className="text-2xl font-bold mb-8 text-gray-800 dark:text-white">Follow Dr. Nyaho</h3>
             <div className="space-y-4">
               {socialLinks.map((link, index) => (
                 <motion.a
@@ -115,20 +142,20 @@ const SocialMedia: React.FC = () => {
             </div>
 
             {/* Contact Information */}
-            <div className="mt-12 bg-white rounded-lg shadow-lg p-6">
-              <h4 className="text-xl font-semibold mb-4 text-gray-800">Contact Information</h4>
+            <div className="mt-12 bg-white dark:bg-dark-800 rounded-lg shadow-lg p-6 border border-gray-200 dark:border-gray-700">
+              <h4 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Contact Information</h4>
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
-                  <Mail size={20} className="text-blue-600" />
-                  <span className="text-gray-700">contact@nyahotamakloe.com</span>
+                  <Mail size={20} className="text-primary-600 dark:text-primary-400" />
+                  <span className="text-gray-700 dark:text-gray-300">contact@nyahotamakloe.com</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <Phone size={20} className="text-blue-600" />
-                  <span className="text-gray-700">+233 XX XXX XXXX</span>
+                  <Phone size={20} className="text-primary-600 dark:text-primary-400" />
+                  <span className="text-gray-700 dark:text-gray-300">+233 XX XXX XXXX</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <MapPin size={20} className="text-blue-600" />
-                  <span className="text-gray-700">Accra, Ghana</span>
+                  <MapPin size={20} className="text-primary-600 dark:text-primary-400" />
+                  <span className="text-gray-700 dark:text-gray-300">Accra, Ghana</span>
                 </div>
               </div>
             </div>
@@ -139,58 +166,70 @@ const SocialMedia: React.FC = () => {
             initial={{ opacity: 0, x: 50 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="bg-white rounded-lg shadow-lg p-8"
+            className="bg-white dark:bg-dark-800 rounded-lg shadow-lg p-6 sm:p-8 border border-gray-200 dark:border-gray-700 order-1 lg:order-2"
           >
-            <h3 className="text-2xl font-bold mb-6 text-gray-800">Send a Message</h3>
-            <form className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-4">
+            <h3 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">Send a Message</h3>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid sm:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     First Name
                   </label>
                   <input
                     type="text"
                     id="firstName"
                     name="firstName"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                    value={formData.firstName}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors bg-white dark:bg-dark-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
                     placeholder="Your first name"
+                    required
                   />
                 </div>
                 <div>
-                  <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Last Name
                   </label>
                   <input
                     type="text"
                     id="lastName"
                     name="lastName"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                    value={formData.lastName}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors bg-white dark:bg-dark-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
                     placeholder="Your last name"
+                    required
                   />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Email Address
                 </label>
                 <input
                   type="email"
                   id="email"
                   name="email"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors bg-white dark:bg-dark-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
                   placeholder="your.email@example.com"
+                  required
                 />
               </div>
 
               <div>
-                <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="subject" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Subject
                 </label>
                 <select
                   id="subject"
                   name="subject"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                  value={formData.subject}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors bg-white dark:bg-dark-700 text-gray-900 dark:text-white"
+                  required
                 >
                   <option value="">Select a subject</option>
                   <option value="general">General Inquiry</option>
@@ -202,25 +241,28 @@ const SocialMedia: React.FC = () => {
               </div>
 
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Message
                 </label>
                 <textarea
                   id="message"
                   name="message"
                   rows={5}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors resize-none"
+                  value={formData.message}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors resize-none bg-white dark:bg-dark-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
                   placeholder="Your message here..."
+                  required
                 ></textarea>
               </div>
 
-                              <button
-                  type="submit"
-                  className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
-                >
-                  <Send size={20} />
-                  Send Message
-                </button>
+              <button
+                type="submit"
+                className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-primary-600 to-purple-600 text-white font-semibold rounded-lg hover:shadow-lg transition-all duration-300 hover:-translate-y-1 shadow-glow"
+              >
+                <MessageSquare size={20} />
+                Send Message
+              </button>
             </form>
           </motion.div>
         </div>
@@ -231,7 +273,7 @@ const SocialMedia: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
           viewport={{ once: true }}
-          className="mt-16 bg-gradient-to-r from-blue-600 to-purple-700 rounded-lg p-8 text-white text-center"
+          className="mt-16 bg-gradient-to-r from-primary-600 to-purple-700 dark:from-primary-700 dark:to-purple-800 rounded-lg p-6 sm:p-8 text-white text-center shadow-glow"
         >
           <h3 className="text-2xl font-bold mb-4">Stay Updated</h3>
           <p className="text-lg mb-6 opacity-90">
@@ -243,7 +285,7 @@ const SocialMedia: React.FC = () => {
               placeholder="Enter your email"
               className="flex-1 px-4 py-3 rounded-lg text-gray-800 focus:ring-2 focus:ring-white focus:outline-none"
             />
-            <button className="px-6 py-3 bg-white text-blue-600 font-semibold rounded-lg hover:bg-gray-100 transition-colors">
+            <button className="px-6 py-3 bg-white text-primary-600 font-semibold rounded-lg hover:bg-gray-100 transition-colors">
               Subscribe
             </button>
           </div>
